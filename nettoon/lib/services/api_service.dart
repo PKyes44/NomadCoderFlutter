@@ -20,6 +20,7 @@ class ApiService {
       }
       return webtoonInstances;
     }
+    print(response.statusCode);
     throw Error();
   }
 }
