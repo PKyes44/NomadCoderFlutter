@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nettoon/models/webtoon_model.dart';
 import 'package:nettoon/services/api_service.dart';
+import 'package:nettoon/widgets/webtoon_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -10,16 +11,17 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        foregroundColor: Colors.green,
         backgroundColor: Colors.white,
         title: const Text(
-          "Today's toon",
+          "Today's Toon",
           style: TextStyle(
             fontSize: 24,
+            color: Colors.green,
           ),
         ),
+        centerTitle: true,
       ),
       body: FutureBuilder(
         builder: (context, futureResult) {
@@ -54,42 +56,10 @@ class HomeScreen extends StatelessWidget {
       itemCount: futureResult.data!.length,
       itemBuilder: (context, index) {
         var webtoon = futureResult.data![index];
-
-        return Column(
-          children: [
-            Container(
-              width: 200,
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(
-                  15,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 5,
-                    offset: const Offset(0, 0),
-                    color: Colors.black.withOpacity(0.5),
-                  ),
-                ],
-              ),
-              child: Image.network(
-                webtoon.thumb,
-                headers: const {
-                  "User-Agent":
-                      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Text(
-              webtoon.title,
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ],
+        return Webtoon(
+          title: webtoon.title,
+          thumb: webtoon.thumb,
+          id: webtoon.id,
         );
       },
       separatorBuilder: (context, index) => const SizedBox(
